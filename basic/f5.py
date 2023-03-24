@@ -39,6 +39,8 @@ def login():
         upw = request.form.get('upw') # 암호는 차후에 암호화 해야한다(관리자도 볼 수 없다. 해싱)
         print(uid,upw)
         # 2. 회원 여부 쿼리
+        from d4 import select_login 
+        select_login() # 마치 이안에 있는것처럼 쓰려면 from
         # 3. 회원이면
             # 3-1 세션생성, 기타 필요한 조치 수행
             # 3-2 서비스 메인 화면으로 이동

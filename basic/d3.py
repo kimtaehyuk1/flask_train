@@ -11,7 +11,7 @@ try:
                             password    ='12341234', 
                             database    ='ml_db',    
                             # 조회 결과는 [ {}, {}, {},...  ] 이런 형태로 추출된다                            
-                            cursorclass =my.cursors.DictCursor
+                            cursorclass =my.cursors.DictCursor 
                             )
     with connection.cursor() as cursor: # cursor는 with문을 벗어나면 자동으로 닫힘
         sql = '''
