@@ -30,7 +30,7 @@ app = Flask(__name__)
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     #method별 분기
-    if request.method == 'GET' :
+    if request.method == 'GET':
         return render_template('login.html')
     else: # post
         # request.form['uid'] 값이 누락되면 서버 셧다운됨, 사용금지
