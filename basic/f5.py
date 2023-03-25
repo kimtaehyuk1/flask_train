@@ -25,7 +25,7 @@ from flask import Flask, render_template, jsonify, request, redirect, url_for, s
 
 app = Flask(__name__)
 # 세션을 위해서 시크릿키 지정
-app.secret_key = 'kimtaehyuk' #임의값, 통산 해시값 활용
+app.secret_key = 'kimtaehyuk' #임의값, 통상 해시값 활용
 
 
 # 로그인 하여 세션을 얻은 후 홈페이지를 진행해야 사이트의 내용을 보여주겠다. => 컨셉

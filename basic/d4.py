@@ -3,7 +3,7 @@
 '''
 import pymysql as my
 
-def select_login(uid,upw):
+def select_login(uid,upw):  # 함수화 하기
     '''
         아이디, 비밀번호를 넣어서 회원여부를 체크하는 함수
         parameter
@@ -39,7 +39,7 @@ def select_login(uid,upw):
                     upw=%s;
             '''
             # execute() 함수의 2번 인자가 파라미터 전달하는 자리, 튜플로 표현
-            cursor.execute( sql,(uid,upw)  )
+            cursor.execute( sql,(uid,upw) )
             row = cursor.fetchone() # 결과셋중 한개만 가져온다 => 단수(리스트가 아닌 단독타입:딕셔너리)
             #print( row['name'] )
             pass
@@ -53,7 +53,7 @@ def select_login(uid,upw):
     # 로그인한 결과를 리턴 -> { ... }
     return row
 
-if __name__ == '__main__':  # d4개발자의 테스트 코드, f5개발자는 호출할 수 없음
+if __name__ == '__main__':  # d4개발자의 테스트 코드, f5개발자는 호출할 수 없음. 만약 이거안하고 f5에서 import하고 수행하게 되면 d4에서 연습수행하려 했던 select_login()이 한번더 수행된다.
     # 정상계정
     print(select_login('guest','1234'))
     # 비정상계정

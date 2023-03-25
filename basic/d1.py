@@ -10,7 +10,7 @@
     업무 포지션은, 지원팀, 공용 API를 만드는 파트 => 함수, 클레스형태로 라이브러리 제공
     사용방법에 대한 예제까지 제공
     데이터베이스를 터미널 통해서 접속
-    1. root 권한으로 mysql 접속하겠다
+    1. root 권한으로 mysql 접속하겠다  (mariadb를 쉽게 사용할수있는 HeidiSQL 터미널에서 수행)
         $ mysql -u root -p
         Enter Password: *********
         MariaDB [(none)]>
@@ -129,13 +129,13 @@ try:
                                 )
 
     print('접속성공')
-except Exception as e:
+except Exception as e:  # try문이 수행 안될을때
     print('접속 오류',e)
 
 else:
     print('접속시 문제 없었음')
 
-finally:
+finally: # 되든, 안되든 무조건 수행됨.
     # 2. 접속 종료(I/O) -> close()
     if connection:
         connection.close()

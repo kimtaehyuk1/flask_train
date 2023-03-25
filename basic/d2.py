@@ -14,9 +14,9 @@ try:
                                 user='root', 
                                 password='12341234', 
                                 database='ml_db', 
+                                # cursorclass=my.cursors.DictCursor
                                 # 조회 결과는 [{},{},{}....] 이런 형태로 추출된다
                                 # 사용 안하면 [(,),(,),(,)....] 이런 형태로 나옴
-                                # cursorclass=my.cursors.DictCursor
                                 )
     # 쿼리 수행
     # pymysql은 커서를 획득해서 쿼리를 수행한다 -> Rule
