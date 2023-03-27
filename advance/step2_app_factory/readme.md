@@ -11,6 +11,9 @@
         - __init__.py 로 이름변경
         - 구조
             service
-            L __init__.py
+            L __init__.py (Service라는 패키지 대변하는놈)
         - 최종 실행 명령
             - flask --app service --debug run
+
+# 블루프린트
+    - URL과 함수의 매핑(라우트)을 관리하는 도구
