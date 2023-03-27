@@ -6,9 +6,14 @@ MVC 패턴 중에 C임.
 '''
 from flask import render_template, request
 from service.controllers import bp_main as main # controllers 패키지의 init이니까, blueprint객체 들고오기
-
+from service.forms import FormQuestion
 
 # ~/main
 @main.route('/') # 등록한 bluepritn도 라우팅할수 있다.
 def home():
     return render_template('index.html')
+
+@main.route('/question') # 등록한 bluepritn도 라우팅할수 있다.
+def question():
+    form = FormQuestion()
+    return render_template('question.html', wtf=form)
