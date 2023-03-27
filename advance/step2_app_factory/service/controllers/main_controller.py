@@ -11,4 +11,4 @@ from service.controllers import bp_main as main # controllers 패키지의 init�
 # ~/main
 @main.route('/') # 등록한 bluepritn도 라우팅할수 있다.
 def home():
-    return "main 홈"
+    return render_template('index.html')

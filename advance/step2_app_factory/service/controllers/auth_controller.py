@@ -7,12 +7,12 @@ MVC 패턴 중에 C임.
 from flask import render_template, request, url_for
 from service.controllers import bp_auth as auth
 
-# ~/auth
+# ~/auth/
 @auth.route('/') # 등록한 bluepritn도 라우팅할수 있다.
 def home():
     # url_for(별칭.함수명) => url이 리턴된다.
     print(url_for('auth_bp.login'))
-    return "auth 홈"
+    return "auth 홈1"
 
 
 @auth.route('/login') # 등록한 bluepritn도 라우팅할수 있다.
