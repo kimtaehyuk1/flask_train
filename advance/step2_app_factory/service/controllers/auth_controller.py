@@ -12,6 +12,8 @@ from datetime import datetime, timedelta
 from flask import current_app #이걸로 환경변수 객체 가져오기
 import jwt
 
+import bcrypt
+
 
 # ~/auth/
 @auth.route('/') # 등록한 blueprint도 라우팅할수 있다.
@@ -53,6 +55,13 @@ def logout():
 
 @auth.route('/signup') # 등록한 bluepritn도 라우팅할수 있다.
 def signup():
+    # TODO : 비밀번호 암호화
+    password = '1234'
+    # 암호화
+    b = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    # 확인및 복호화
+    # bcrypt.checkpw() => 이것으로 암호가 일치하는지만 체크해서 로그인시 활용
+    print(password, b, bcrypt.checkpw(password.encode('utf-8'),b) )
     return "auth signup"
 
 @auth.route('/delete') # 등록한 bluepritn도 라우팅할수 있다.
