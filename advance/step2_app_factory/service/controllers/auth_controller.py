@@ -9,12 +9,12 @@ from service.controllers import bp_auth as auth # 블루프린트 땡겨오기
 # 시간정보획득, 시간차를 계산하는 함수
 from datetime import datetime, timedelta
 # Flask 객체 획득
-from flask import current_app
+from flask import current_app #이걸로 환경변수 객체 가져오기
 import jwt
 
 
 # ~/auth/
-@auth.route('/') # 등록한 bluepritn도 라우팅할수 있다.
+@auth.route('/') # 등록한 blueprint도 라우팅할수 있다.
 def home():
     # url_for(별칭.함수명) => url이 리턴된다.
     print(url_for('auth_bp.login'))

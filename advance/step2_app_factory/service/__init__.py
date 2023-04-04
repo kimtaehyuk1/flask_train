@@ -20,6 +20,7 @@ def create_app():
     
     return app
 
+# 환경변수 객체등록
 def init_environment(app):
     # 특정파일(cfg, ...)등을 읽어서 처리 가능
     app.config.from_pyfile( 'resource/config.cfg', silent=True )
