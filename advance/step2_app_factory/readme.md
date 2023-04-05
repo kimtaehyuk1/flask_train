@@ -134,7 +134,7 @@
 
 
             # 이 환경변수는 migrate가 필수로 요구하는 환경변수
-            SQLALCHEMY_DATABASE_URL=f"{DB_PROTOCAL}://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_DATABASE}"
+            SQLALCHEMY_DATABASE_URI=f"{DB_PROTOCAL}://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_DATABASE}"
             # sqlalchemy 추가 설정
             SQLALCHEMY_TRACK_MODIFICATIONS=False
 
@@ -142,11 +142,87 @@
     - 데이터 베이스 생성, 초기화 (최초 1회)
         - --app service 은 없어도 되는데, 이앱은 app or wsgi로 시작하는 엔트리가 없어서 별도로 지정해야 한다
         - flask --app service db init
+            - sqlite : 소형데이터베이스, 스마트폰에 사용하는 DB 이 경우에는 데이터베이스 생성을 자동으로 해줌, 파일럿 형태에서 사용
+            - mysql 같은 데이터베이스(케이스별로 상이)는 실제로는 생성 안됨.
+
         - migration 폴더가 생긴다(내부는 자동으로 만들어지는 구조이므로, 관여하지 않는다), 단 versions 밑으로 수정할때마다 새로운 버전의 DB관련
         생성된다.
     - 모델(테이블)생성, 변경
+        - model > models.py에 테이블 관련 내용 기술
+        - service>__init__.py
+            - from .model import models : 주석 해제 또는 신규작성
         - flask --app service db migrate
+        ```
+            MariaDB [(none)]> use my_db;
+            Database changed
+            MariaDB [my_db]> show tables;
+            +-----------------+
+            | Tables_in_my_db |
+            +-----------------+
+            | alembic_version |
+            +-----------------+
+            1 row in set (0.001 sec)
+
+        ```
+
     - 모델(테이블) 생성, 변경후 데이터베이스에 적용
         - flask --app service db upgrade
     - 컨테이너 이미지 생성시
         - 위의 명령들 3개를 차례대로 수행해서 데이터베이스 초기화, 생성과정을 수행
+
+    - 필요한 기능들 시뮬레이션
+        - DBA는 sql문을 작성해서 쿼리 구현
+        - ORM에서는 shell을 열어서 파이썬 코드로 구현
+        - flask --app service shell
+            - 질문 등록
+                ```
+                    (web) c:\Users\USER\Desktop\flask_train\advance\step2_app_factory>flask --app service shell
+
+                    --------------------
+                    dev dev
+                    --------------------
+
+                    Python 3.11.2 (tags/v3.11.2:878ead1, Feb  7 2023, 16:38:35) [MSC v.1934 64 bit (AMD64)] on win32
+                    App: service
+                    Instance: C:\Users\USER\Desktop\flask_train\advance\step2_app_factory\instance
+                    >>> from service.model.models import Question, Answer
+                    >>> from datetime import datetime                            
+                    >>> q1 = Question(title="질문1", content="내용1", reg_date=datetime.now())
+                    >>> from service import db
+                    >>> db.session.add(q1)  
+                    >>> db.session.commit()
+
+                ```
+            - 질문 조회
+                ```
+                    # 전체 데이터 조회
+                    >>> Question.query.all()
+                    [<Question 1>]
+                    >>> qs = Question.query.all()
+                    >>> qs[0].title
+                    '질문1'
+                    # id값을 넣어서 조회 : select * from question where id=1;
+                    Question.query.get(1)
+                    # 내용중에 '용' 문자열이 존재하면 다가져오시오.
+                    # select * from question where content like '%용%';
+                    # %용, %용%, 용% <- 내용 검색
+                    Question.query.filter(Question.content.like('%용%')).all()
+                ```
+            - 질문 수정
+                ```
+                    q1 = Question.query.get(1)
+                    # 변경하고 싶은 부분은 수정
+                    # update question set title='질문11111' where id=1;
+                    q1.title = "질문111111"
+                    >>> db.sesstion.commit()
+                ```
+            - 질문 삭제
+                ```
+                    q1 = Question.query.get(1)
+                    # delete from question where id=1;
+                    db.session.delete(q1)
+                    db.session.commit()
+                ```
+
+            - 답변 등록
+                ...
