@@ -214,7 +214,7 @@
                     # 변경하고 싶은 부분은 수정
                     # update question set title='질문11111' where id=1;
                     q1.title = "질문111111"
-                    >>> db.sesstion.commit()
+                    >>> db.session.commit()
                 ```
             - 질문 삭제
                 ```
@@ -225,4 +225,44 @@
                 ```
 
             - 답변 등록
-                ...
+                ```
+                    # 질문 두개 추가
+                    q1 = Question(title="질문1", content="내용1", reg_date=datetime.now())
+                    db.session.add(q1)  
+                    >>> db.session.commit()
+                    q2 = Question(title="질문2", content="내용2", reg_date=datetime.now())
+                    db.session.add(q1)  
+                    >>> db.session.commit()
+                    # 질문 1개를 찾고 -> 답변 등록
+                    q2 = Question.query.get(2)
+                    # 답변생성
+                    a = Answer(question=q2, content="질문에 대한 답변입니다", reg_date=datetime.now()) 
+                    >>> db.session.add(a)
+                    >>> db.session.commit()
+                ```
+            - 답변을 통해서 질문 찾기
+                ```
+                    a.question
+                ```
+            - 질문을 통해서 답변 찾기
+                ```
+                    # 역참조의 이름을 사용하여 답변들을 다 찾아온다.
+                    q2.answer_set
+                ```
+            - 질문을 삭제하면 답변도 다 삭제되는가?
+                ```
+                    db.session.delete(q2)
+                    db.session.commit()
+
+                    # 답변의 참조 question_id값만 무효화 되었다.
+                    # 작성자가 서로 다르므로, 삭제 권리는 없고, 참조만 제거
+                    select * from answer;
+                    +----+-------------+----------------------------------+---------------------+
+                    | id | question_id | content                          | reg_date            |
+                    +----+-------------+----------------------------------+---------------------+
+                    |  1 |        NULL | 질문에 대한 답변입니다           | 2023-04-05 13:14:02 |
+                    +----+-------------+----------------------------------+---------------------+
+                    # 본인 답변 삭제
+                    db.session.delete(a)
+                    db.session.commit()
+                ```
